@@ -26,6 +26,7 @@ ACTOR_LAMBDA = "gammavet_rechazar_ruta"
 BOT_PHONE_ID = "1051240901403291"
 DEFAULT_TENANT_BRANCH = "test"
 DEFAULT_TENANT_SLUG = "chask"
+DEFAULT_FUNCTION_UUID = "cc20aedd-7774-4988-8488-d94e92b0a746"
 TENANT_DRIVER_UPDATE_PATH = "gammavet/drivers/update"
 REJECTION_ACK = "Ok, registramos que no puedes operar esta ruta. El equipo revisara la asignacion."
 
@@ -81,7 +82,7 @@ class FunctionBackend:
         return client
 
     def _function_uuid(self) -> str:
-        return os.getenv("FUNCTION_UUID") or os.getenv("CHASK_FUNCTION_UUID") or ""
+        return DEFAULT_FUNCTION_UUID
 
     def _build_driver_payload(self) -> dict[str, Any]:
         event_uuid = self._event_uuid()
