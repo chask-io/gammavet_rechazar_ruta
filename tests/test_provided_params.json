@@ -8,6 +8,8 @@
   "prompt": "",
   "event_type": "function_call",
   "extra_params": {
+    "chask_publish_test_mock": true,
+    "non_mutating_test": true,
     "user_phone_number": "+56976025397",
     "agent_phone_number": "1051240901403291",
     "tool_calls": [
@@ -22,7 +24,7 @@
   },
   "files": [],
   "metadata": {
-    "description": "Test RechazarRutaFn with explicit params",
+    "description": "Test RechazarRutaFn with explicit params in non-mutating mock mode",
     "expected_status": "success"
   }
 }

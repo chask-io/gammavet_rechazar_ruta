@@ -50,6 +50,11 @@ class FunctionBackend:
         note = str(self._extract_tool_args().get("nota") or "").strip()
         payload["note"] = note or "rechazo_conductor"
 
+        if self._is_publish_test_mock():
+            driver_ref = payload.get("driver_id") or payload.get("driver_phone")
+            logger.info("RechazarRutaFn publish-test mock for driver=%s", driver_ref)
+            return f"Conductor {driver_ref} marcado como no disponible en modo prueba no mutante."
+
         result = self._tenant_client().post(TENANT_DRIVER_UPDATE_PATH, json=payload)
         if not isinstance(result, dict):
             raise RuntimeError("/api/gammavet/drivers/update returned an invalid response")
@@ -250,6 +255,13 @@ class FunctionBackend:
             return {}
         args = tool_calls[0].get("args", {}) or {}
         return args if isinstance(args, dict) else {}
+
+    def _is_publish_test_mock(self) -> bool:
+        extra_params = self.orchestration_event.extra_params or {}
+        return bool(
+            extra_params.get("chask_publish_test_mock")
+            or extra_params.get("non_mutating_test")
+        )
 
     def _first_value(self, data: dict[str, Any], *keys: str) -> Any:
         for key in keys:

@@ -11,7 +11,14 @@ EVENT_ID = "11111111-2222-4333-8444-555555555555"
 SESSION_ID = "66666666-2222-4333-8444-555555555555"
 
 
-def _event(args=None):
+def _event(args=None, extra_params=None):
+    params = {
+        "user_phone_number": "+56 9 1111 2222",
+        "agent_phone_number": "1051240901403291",
+        "tool_calls": [{"args": args or {"nota": "no puedo hoy"}}],
+    }
+    if extra_params:
+        params.update(extra_params)
     return OrchestrationEvent.model_validate(
         {
             "event_id": EVENT_ID,
@@ -33,11 +40,7 @@ def _event(args=None):
             "source": "agent",
             "target": "function",
             "plan": None,
-            "extra_params": {
-                "user_phone_number": "+56 9 1111 2222",
-                "agent_phone_number": "1051240901403291",
-                "tool_calls": [{"args": args or {"nota": "no puedo hoy"}}],
-            },
+            "extra_params": params,
             "access_token": "access-token",
             "target_agent": None,
             "target_operator": None,
@@ -111,3 +114,17 @@ def test_rechazar_ruta_marks_unavailable_sends_ack_and_completes_session(monkeyp
         and call["extra_params"]["event_type"] == "conductor_session_completed"
         for call in orchestrator.calls
     )
+
+
+def test_publish_test_mock_does_not_mutate_send_or_close(monkeypatch):
+    tenant = FakeTenantClient()
+    orchestrator = FakeOrchestrator()
+    backend = FunctionBackend(_event(extra_params={"chask_publish_test_mock": True}))
+    monkeypatch.setattr(backend, "_tenant_client", lambda: tenant)
+    monkeypatch.setattr("backend.function_logic.orchestrator_api_manager", orchestrator)
+
+    result = backend.process_request()
+
+    assert "modo prueba" in result
+    assert tenant.calls == []
+    assert orchestrator.calls == []
