@@ -40,7 +40,9 @@ function:
   data:
     reads:
       - table: drivers
-        columns: [id, phone, availability, paused, active]
+        columns: [id, external_driver_id, full_name, phone, normalized_phone, availability, assigned_zone, street, street_number, unit, region, comuna, paused, active, source_spreadsheet_id, source_sheet_row, created_at, updated_at]
+      - table: dispatch_events
+        columns: [id, event_type, actor_lambda, orchestration_event_uuid]
     writes:
       - table: drivers
         mode: update
