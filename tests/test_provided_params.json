@@ -1,0 +1,28 @@
+{
+  "function_name": "RechazarRutaFn",
+  "test_type": "provided_params",
+  "args": {
+    "nota": "Rechazo de prueba"
+  },
+  "widget_params": {},
+  "prompt": "",
+  "event_type": "function_call",
+  "extra_params": {
+    "user_phone_number": "+56976025397",
+    "agent_phone_number": "1051240901403291",
+    "tool_calls": [
+      {
+        "id": "test_call_rechazar_ruta",
+        "name": "RechazarRutaFn",
+        "args": {
+          "nota": "Rechazo de prueba"
+        }
+      }
+    ]
+  },
+  "files": [],
+  "metadata": {
+    "description": "Test RechazarRutaFn with explicit params",
+    "expected_status": "success"
+  }
+}

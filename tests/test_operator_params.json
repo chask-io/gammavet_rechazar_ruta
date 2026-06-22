@@ -1,0 +1,27 @@
+{
+  "function_name": "RechazarRutaFn",
+  "test_type": "operator_params",
+  "args": {},
+  "widget_params": {},
+  "prompt": "El conductor indica que no puede operar la ruta hoy y la rechaza.",
+  "event_type": "function_call",
+  "extra_params": {
+    "is_operator_params_test": true,
+    "user_phone_number": "+56976025397",
+    "agent_phone_number": "1051240901403291",
+    "tool_calls": [
+      {
+        "id": "test_call_rechazar_ruta_operator",
+        "name": "RechazarRutaFn",
+        "args": {
+          "nota": "Rechazo de prueba operador"
+        }
+      }
+    ]
+  },
+  "files": [],
+  "metadata": {
+    "description": "Test operator generating params for RechazarRutaFn",
+    "expected_status": "success"
+  }
+}
