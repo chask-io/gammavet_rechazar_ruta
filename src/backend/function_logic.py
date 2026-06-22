@@ -67,7 +67,6 @@ class FunctionBackend:
         branch = (
             os.environ.get("TENANT_BRANCH")
             or os.environ.get("CHASK_TENANT_BRANCH")
-            or getattr(self.orchestration_event, "branch", None)
             or DEFAULT_TENANT_BRANCH
         )
         client = TenantDataClient(
