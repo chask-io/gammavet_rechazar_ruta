@@ -39,13 +39,13 @@ function:
 
   data:
     reads:
-      - table: gammavet_test.drivers
+      - table: drivers
         columns: [id, phone, availability, paused, active]
     writes:
-      - table: gammavet_test.drivers
+      - table: drivers
         mode: update
         columns: [availability, paused, updated_at]
-      - table: gammavet_test.dispatch_events
+      - table: dispatch_events
         mode: insert
         columns: [event_type, actor_lambda, driver_id, orchestration_event_uuid, metadata]
     rpc:
