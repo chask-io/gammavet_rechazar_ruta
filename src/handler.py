@@ -301,18 +301,7 @@ def lambda_handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
         )
 
         # Instantiate backend with orchestration event
-        backend = FunctionBackend(orchestration_event){% if cookiecutter.enable_dynamic_tools %}
-
-        if orchestration_event.event_type == "preflight_discover":
-            preflight_result = backend.handle_preflight()
-            return success_response(
-                result={
-                    "preflight_result": preflight_result,
-                    "request_id": request_id
-                },
-                response_event_sent=True
-            )
-{% endif %}
+        backend = FunctionBackend(orchestration_event)
 
         # Execute business logic (developer's code)
         result = backend.process_request()
