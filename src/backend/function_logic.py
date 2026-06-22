@@ -8,8 +8,6 @@ the rejection over WhatsApp, and complete the conductor orchestration session.
 import logging
 import os
 import re
-from collections.abc import Iterator
-from contextlib import contextmanager
 from typing import Any
 from uuid import UUID
 
@@ -52,8 +50,7 @@ class FunctionBackend:
         note = str(self._extract_tool_args().get("nota") or "").strip()
         payload["note"] = note or "rechazo_conductor"
 
-        with _tenant_data_public_test_mode():
-            result = self._tenant_client().post(TENANT_DRIVER_UPDATE_PATH, json=payload)
+        result = self._tenant_client().post(TENANT_DRIVER_UPDATE_PATH, json=payload)
         if not isinstance(result, dict):
             raise RuntimeError("/api/gammavet/drivers/update returned an invalid response")
 
@@ -260,16 +257,3 @@ class FunctionBackend:
             if value:
                 return value
         return None
-
-
-@contextmanager
-def _tenant_data_public_test_mode() -> Iterator[None]:
-    previous_mode = os.environ.get("MODE")
-    os.environ["MODE"] = "PRODUCTION"
-    try:
-        yield
-    finally:
-        if previous_mode is None:
-            os.environ.pop("MODE", None)
-        else:
-            os.environ["MODE"] = previous_mode
